@@ -132,16 +132,17 @@ export default function ProfilePage() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+    <div className="profile">
       {loadError ? <div className="error">{loadError}</div> : null}
 
-      <div className="topbar">
+      <div className="profile__top">
         <div>
-          <h1 className="h1">Your profile</h1>
-          <p className="p">Please complete your details.</p>
+          <div className="profile__title">Your Profile</div>
+          <div className="profile__sub">Please complete your details.</div>
         </div>
         <button
-          className="btn btn-outline"
+          className="profile__signout"
+          type="button"
           onClick={async () => {
             await signOut();
             navigate("/login", { replace: true });
@@ -151,47 +152,66 @@ export default function ProfilePage() {
         </button>
       </div>
 
-      <div className="card" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <label className="label">Phone (already collected)</label>
-        <input className="input" value={phone} readOnly />
+      <div className="profile__card">
+        <div className="profile__sectionTitle">Primary Details</div>
 
-        <label className="label">Name</label>
-        <input className="input" value={name} onChange={(e) => setName(e.target.value)} />
-
-        <div className="row">
-          <div>
-            <label className="label">Age</label>
-            <input className="input" inputMode="numeric" value={age} onChange={(e) => setAge(e.target.value)} />
+        <div className="profile__grid">
+          <div className="profile__field">
+            <div className="profile__label">Name</div>
+            <input className="profile__input" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
-          <div>
-            <label className="label">Sex</label>
-            <select className="select" value={sex} onChange={(e) => setSex(e.target.value as Sex)}>
+
+          <div className="profile__field">
+            <div className="profile__label">Phone</div>
+            <input className="profile__input" value={phone} readOnly />
+          </div>
+
+          <div className="profile__field">
+            <div className="profile__label">Age</div>
+            <input className="profile__input" inputMode="numeric" value={age} onChange={(e) => setAge(e.target.value)} />
+          </div>
+
+          <div className="profile__field">
+            <div className="profile__label">Sex</div>
+            <select className="profile__select" value={sex} onChange={(e) => setSex(e.target.value as Sex)}>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
           </div>
+
+          <div className="profile__field">
+            <div className="profile__label">DOB</div>
+            <input className="profile__input" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
+          </div>
+
+          <div className="profile__field">
+            <div className="profile__label">Pincode</div>
+            <input
+              className="profile__input"
+              inputMode="numeric"
+              value={pincode}
+              onChange={(e) => setPincode(e.target.value)}
+              placeholder="6-digit pincode"
+            />
+          </div>
         </div>
 
-        <label className="label">DOB</label>
-        <input className="input" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
-
-        <label className="label">Address</label>
-        <textarea className="textarea" value={address} onChange={(e) => setAddress(e.target.value)} />
-
-        <label className="label">Pincode</label>
-        <input className="input" inputMode="numeric" value={pincode} onChange={(e) => setPincode(e.target.value)} />
-        <div className="muted">6 digits</div>
+        <div className="profile__field">
+          <div className="profile__label">Address</div>
+          <textarea className="profile__textarea" value={address} onChange={(e) => setAddress(e.target.value)} />
+        </div>
       </div>
 
-      <div className="card" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+      <div className="profile__card">
+        <div className="profile__rowBetween">
           <div>
-            <div style={{ fontWeight: 700 }}>Family members (optional)</div>
-            <div className="muted">Add family members with details</div>
+            <div className="profile__sectionTitle">Family Members (optional)</div>
+            <div className="profile__muted">Add family members with details</div>
           </div>
           <button
-            className="btn btn-dark"
+            className="profile__chip"
+            type="button"
             onClick={() =>
               setFamilyMembers((m) => [
                 ...m,
@@ -213,83 +233,78 @@ export default function ProfilePage() {
         </div>
 
         {familyMembers.length === 0 ? (
-          <div className="muted">No family members added.</div>
+          <div className="profile__muted">No family members added.</div>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div className="profile__stack">
             {familyMembers.map((m, idx) => (
-              <div key={m.id} className="card" style={{ padding: 12 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "center" }}>
-                  <div style={{ fontWeight: 700 }}>Member {idx + 1}</div>
+              <div key={m.id} className="profile__member">
+                <div className="profile__rowBetween">
+                  <div className="profile__memberTitle">Member {idx + 1}</div>
                   <button
-                    className="btn btn-outline"
+                    className="profile__linkDanger"
+                    type="button"
                     onClick={() => setFamilyMembers((all) => all.filter((x) => x.id !== m.id))}
                   >
                     Remove
                   </button>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 10 }}>
-                  <label className="label">Name</label>
-                  <input
-                    className="input"
-                    value={m.name}
-                    onChange={(e) => updateMember(m.id, { name: e.target.value })}
-                  />
-
-                  <div className="row">
-                    <div>
-                      <label className="label">Age</label>
-                      <input
-                        className="input"
-                        inputMode="numeric"
-                        value={String(m.age ?? "")}
-                        onChange={(e) => updateMember(m.id, { age: toInt(e.target.value) })}
-                      />
-                    </div>
-                    <div>
-                      <label className="label">Sex</label>
-                      <select
-                        className="select"
-                        value={m.sex}
-                        onChange={(e) => updateMember(m.id, { sex: e.target.value as Sex })}
-                      >
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
+                <div className="profile__grid">
+                  <div className="profile__field">
+                    <div className="profile__label">Name</div>
+                    <input className="profile__input" value={m.name} onChange={(e) => updateMember(m.id, { name: e.target.value })} />
                   </div>
 
-                  <label className="label">DOB</label>
-                  <input
-                    className="input"
-                    type="date"
-                    value={m.dob}
-                    onChange={(e) => updateMember(m.id, { dob: e.target.value })}
-                  />
+                  <div className="profile__field">
+                    <div className="profile__label">Phone</div>
+                    <input
+                      className="profile__input"
+                      inputMode="tel"
+                      value={m.phone ?? ""}
+                      onChange={(e) => updateMember(m.id, { phone: e.target.value })}
+                      placeholder="Optional"
+                    />
+                  </div>
 
-                  <label className="label">Phone (optional)</label>
-                  <input
-                    className="input"
-                    inputMode="tel"
-                    value={m.phone ?? ""}
-                    onChange={(e) => updateMember(m.id, { phone: e.target.value })}
-                  />
+                  <div className="profile__field">
+                    <div className="profile__label">Age</div>
+                    <input
+                      className="profile__input"
+                      inputMode="numeric"
+                      value={String(m.age ?? "")}
+                      onChange={(e) => updateMember(m.id, { age: toInt(e.target.value) })}
+                    />
+                  </div>
 
-                  <label className="label">Address</label>
-                  <textarea
-                    className="textarea"
-                    value={m.address}
-                    onChange={(e) => updateMember(m.id, { address: e.target.value })}
-                  />
+                  <div className="profile__field">
+                    <div className="profile__label">Sex</div>
+                    <select className="profile__select" value={m.sex} onChange={(e) => updateMember(m.id, { sex: e.target.value as Sex })}>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
 
-                  <label className="label">Pincode</label>
-                  <input
-                    className="input"
-                    inputMode="numeric"
-                    value={m.pincode}
-                    onChange={(e) => updateMember(m.id, { pincode: e.target.value })}
-                  />
+                  <div className="profile__field">
+                    <div className="profile__label">DOB</div>
+                    <input className="profile__input" type="date" value={m.dob} onChange={(e) => updateMember(m.id, { dob: e.target.value })} />
+                  </div>
+
+                  <div className="profile__field">
+                    <div className="profile__label">Pincode</div>
+                    <input
+                      className="profile__input"
+                      inputMode="numeric"
+                      value={m.pincode}
+                      onChange={(e) => updateMember(m.id, { pincode: e.target.value })}
+                      placeholder="Optional"
+                    />
+                  </div>
+                </div>
+
+                <div className="profile__field">
+                  <div className="profile__label">Address</div>
+                  <textarea className="profile__textarea" value={m.address} onChange={(e) => updateMember(m.id, { address: e.target.value })} />
                 </div>
               </div>
             ))}
@@ -297,11 +312,13 @@ export default function ProfilePage() {
         )}
       </div>
 
-      <button className="btn btn-primary" onClick={save} disabled={!isValid || saving}>
-        {saving ? "Saving..." : "Save profile"}
-      </button>
+      <div className="profile__sticky">
+        <button className="profile__save" onClick={save} disabled={!isValid || saving}>
+          {saving ? "Saving..." : "Save Profile"}
+        </button>
+        {status ? <div className="profile__status">{status}</div> : null}
+      </div>
 
-      {status ? <div className="muted">{status}</div> : null}
     </div>
   );
 }
