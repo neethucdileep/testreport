@@ -83,6 +83,13 @@ function hashOtp(phoneE164, otp) {
         h = (h * 31 + data.charCodeAt(i)) >>> 0;
     return h.toString(16);
 }
+function redactOtpFromMessage(message) {
+    // Remove likely OTP sequences from logs (4-8 digits).
+    return message.replace(/\b\d{4,8}\b/g, "******");
+}
+function lastN(s, n) {
+    return s.length <= n ? s : s.slice(-n);
+}
 async function sendAlvoSms(args) {
     const url = new URL("https://alvosms.in/api/v1/send");
     url.searchParams.set("token", args.token);
@@ -93,10 +100,18 @@ async function sendAlvoSms(args) {
     url.searchParams.set("template-id", args.templateId);
     const res = await fetch(url.toString(), { method: "GET" });
     const text = await res.text();
-    if (isEmulator()) {
-        // Alvo sometimes returns 200 with an error message in body (e.g. DLT mismatch).
-        console.log("[alvo] status=", res.status, "body=", text);
-    }
+    // Always log a sanitized provider response for debugging production delivery issues.
+    // DO NOT log token or raw OTP.
+    console.log("[alvo] request", {
+        status: res.status,
+        ok: res.ok,
+        numbersLast4: lastN(args.numbers, 4),
+        route: args.route,
+        sender: args.sender,
+        templateId: args.templateId,
+        message: redactOtpFromMessage(args.message),
+        body: text.slice(0, 500),
+    });
     if (!res.ok) {
         throw new https_1.HttpsError("internal", `AlvoSMS send failed (${res.status})`, { body: text });
     }
@@ -166,7 +181,20 @@ exports.patientRequestOtp = (0, https_1.onCall)({
     // Must match the approved DLT template exactly (spacing/punctuation/newlines).
     const message = `Welcome to Optimech.\nYour One Time Password is ${otp} - Powered by ALVO`;
     const numbers = digits.length === 10 ? digits : digits.slice(-10);
-    await sendAlvoSms({ token, numbers, route, sender, templateId, message });
+    try {
+        await sendAlvoSms({ token, numbers, route, sender, templateId, message });
+    }
+    catch (err) {
+        console.error("[patientRequestOtp] send failed", {
+            numbersLast4: lastN(numbers, 4),
+            route,
+            sender,
+            templateId,
+            message: redactOtpFromMessage(message),
+            error: err instanceof Error ? { name: err.name, message: err.message, stack: err.stack } : String(err),
+        });
+        throw err;
+    }
     // Never return OTP in production responses.
     return isEmulator() ? { ok: true, debugOtp: otp } : { ok: true };
 });
