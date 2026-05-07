@@ -36,8 +36,7 @@ const callableCors = isEmulator()
   : [
       "https://bloodlyf.in",
       "https://www.bloodlyf.in",
-      // Amplify preview / prod domains
-      /https:\/\/.*\.amplifyapp\.com$/,
+      // Amplify domains (explicit allowlist; regex matching is unreliable here)
       "https://main.d1r3chpcjgs5iy.amplifyapp.com",
       // add other allowed origins here (staging, etc.)
     ];
