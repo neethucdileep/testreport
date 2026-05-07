@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import LandingPage from "@/pages/LandingPage";
 import LoginPage from "@/pages/LoginPage";
 import ProfilePage from "@/pages/ProfilePage";
 import { AuthProvider } from "@/state/AuthProvider";
-import { useAuth } from "@/state/useAuth";
 import MobileShell from "@/ui/MobileShell";
 import AdminShell from "@/ui/admin/AdminShell";
 import RequireAdmin from "@/ui/routing/RequireAdmin";
@@ -17,17 +17,18 @@ import OpsLoginPage from "@/pages/ops/OpsLoginPage";
 import OpsHomePage from "@/pages/ops/OpsHomePage";
 import OpsRegisterPage from "@/pages/ops/OpsRegisterPage";
 
-function RootRedirect() {
-  const { user, isReady } = useAuth();
-  if (!isReady) return null;
-  return <Navigate to={user ? "/profile" : "/login"} replace />;
-}
-
 export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<RootRedirect />} />
+        <Route
+          path="/"
+          element={
+            <MobileShell>
+              <LandingPage />
+            </MobileShell>
+          }
+        />
 
         {/* Patient/public (existing flow) */}
         <Route

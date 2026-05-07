@@ -141,3 +141,156 @@
   color: var(--muted);
 }
 
+/* --- Landing / onboarding --- */
+.landing {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 14px;
+}
+
+.landing__hero {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  min-height: 220px;
+  background:
+    radial-gradient(500px 380px at 30% 10%, rgba(20, 184, 166, 0.35), transparent 60%),
+    radial-gradient(520px 420px at 85% 25%, rgba(124, 58, 237, 0.22), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(244, 239, 255, 0.35));
+  border: 1px solid rgba(36, 24, 56, 0.10);
+}
+
+.landing__heroGlow {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.35), transparent 70%);
+  filter: blur(10px);
+}
+
+.landing__heroPortrait {
+  position: absolute;
+  right: 10%;
+  top: 18%;
+  width: 54%;
+  aspect-ratio: 3 / 4;
+  border-radius: 999px 999px 28px 28px;
+  background:
+    radial-gradient(90px 90px at 60% 30%, rgba(255,255,255,0.75), transparent 70%),
+    linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(124, 58, 237, 0.85));
+  opacity: 0.85;
+  box-shadow: rgba(15, 10, 30, 0.10) 0 18px 40px -22px;
+}
+
+.landing__card {
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(36, 24, 56, 0.12);
+  box-shadow: rgba(15, 10, 30, 0.08) 0 20px 40px -26px;
+  padding: 18px 16px 14px;
+}
+
+.landing__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.landing__brand {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--text-h);
+}
+
+.landing__title {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.05;
+  letter-spacing: -0.8px;
+  color: var(--text-h);
+}
+
+.landing__subtitle {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.landing__cta {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.landing__hint {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* --- Swipe control --- */
+.swipe {
+  position: relative;
+  height: 56px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(36, 24, 56, 0.14);
+  overflow: hidden;
+  padding: 6px;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.swipe.is-disabled {
+  opacity: 0.65;
+}
+
+.swipe__fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.22), rgba(124, 58, 237, 0.18));
+}
+
+.swipe__label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: rgba(32, 26, 46, 0.8);
+  letter-spacing: 0.3px;
+  pointer-events: none;
+}
+
+.swipe__knob {
+  position: relative;
+  height: 48px;
+  width: 48px;
+  border-radius: 16px;
+  border: 1px solid rgba(36, 24, 56, 0.14);
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
+  box-shadow: rgba(15, 10, 30, 0.16) 0 18px 26px -18px;
+  cursor: grab;
+  display: grid;
+  place-items: center;
+}
+
+.swipe__knob:active {
+  cursor: grabbing;
+}
+
+.swipe__knob:focus-visible {
+  outline: 2px solid rgba(20, 184, 166, 0.8);
+  outline-offset: 3px;
+}
+
+.swipe__arrow {
+  color: white;
+  font-size: 20px;
+  line-height: 1;
+  transform: translateX(1px);
+}
+
