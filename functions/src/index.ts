@@ -224,12 +224,26 @@ export const patientVerifyOtp = onCall({ cors: callableCors }, async (request) =
   await ref.delete();
 
   // Create/get Firebase Auth user and mint custom token
-  const uid = `p_${digits}`;
+  const desiredUid = `p_${digits}`;
+  let uid = desiredUid;
+
   try {
-    await admin.auth().getUser(uid);
+    await admin.auth().getUser(desiredUid);
   } catch {
-    await admin.auth().createUser({ uid, phoneNumber: phoneE164 });
+    try {
+      await admin.auth().createUser({ uid: desiredUid, phoneNumber: phoneE164 });
+    } catch (err) {
+      // If this phone number was already used by a different UID, reuse that account.
+      const code = typeof err === "object" && err !== null ? (err as { errorInfo?: { code?: unknown } }).errorInfo?.code : undefined;
+      if (code === "auth/phone-number-already-exists") {
+        const existing = await admin.auth().getUserByPhoneNumber(phoneE164);
+        uid = existing.uid;
+      } else {
+        throw err;
+      }
+    }
   }
+
   const customToken = await admin.auth().createCustomToken(uid, { phone: phoneE164, role: "patient" });
   return { ok: true, customToken, uid, phoneE164 };
 });
