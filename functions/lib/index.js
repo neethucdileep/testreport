@@ -38,7 +38,12 @@ require("dotenv/config");
 const admin = __importStar(require("firebase-admin"));
 const firestore_1 = require("firebase-admin/firestore");
 const https_1 = require("firebase-functions/v2/https");
+const params_1 = require("firebase-functions/params");
 admin.initializeApp();
+const ALVO_SMS_TOKEN = (0, params_1.defineSecret)("ALVO_SMS_TOKEN");
+const ALVO_SENDER_ID = (0, params_1.defineSecret)("ALVO_SENDER_ID");
+const ALVO_DLT_TEMPLATE_ID = (0, params_1.defineSecret)("ALVO_DLT_TEMPLATE_ID");
+const ALVO_ROUTE = (0, params_1.defineSecret)("ALVO_ROUTE");
 function normalizeE164India(raw) {
     const digits = raw.replace(/\D/g, "");
     if (digits.length === 10)
@@ -64,6 +69,9 @@ const callableCors = isEmulator()
     : [
         "https://bloodlyf.in",
         "https://www.bloodlyf.in",
+        // Amplify preview / prod domains
+        /https:\/\/.*\.amplifyapp\.com$/,
+        "https://main.d1r3chpcjgs5iy.amplifyapp.com",
         // add other allowed origins here (staging, etc.)
     ];
 function hashOtp(phoneE164, otp) {
@@ -122,17 +130,20 @@ exports.adminSetStaffPassword = (0, https_1.onCall)({ cors: callableCors }, asyn
     }, { merge: true });
     return { ok: true };
 });
-exports.patientRequestOtp = (0, https_1.onCall)({ cors: callableCors }, async (request) => {
+exports.patientRequestOtp = (0, https_1.onCall)({
+    cors: callableCors,
+    secrets: [ALVO_SMS_TOKEN, ALVO_SENDER_ID, ALVO_DLT_TEMPLATE_ID, ALVO_ROUTE],
+}, async (request) => {
     const data = request.data;
     const rawPhone = typeof data === "object" && data !== null && "phone" in data ? String(data.phone) : "";
     const phoneE164 = normalizeE164India(rawPhone);
     const digits = phoneE164.replace(/\D/g, "");
     if (digits.length < 10)
         throw new https_1.HttpsError("invalid-argument", "Invalid phone number.");
-    const token = process.env.ALVO_SMS_TOKEN ?? "";
-    const sender = process.env.ALVO_SENDER_ID ?? "";
-    const route = process.env.ALVO_ROUTE ?? "otp";
-    const templateId = process.env.ALVO_DLT_TEMPLATE_ID ?? "";
+    const token = ALVO_SMS_TOKEN.value();
+    const sender = ALVO_SENDER_ID.value();
+    const route = ALVO_ROUTE.value() || "otp";
+    const templateId = ALVO_DLT_TEMPLATE_ID.value();
     if (!token || !sender || !templateId) {
         throw new https_1.HttpsError("failed-precondition", "SMS provider not configured.");
     }

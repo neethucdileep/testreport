@@ -2,8 +2,14 @@ import "dotenv/config";
 import * as admin from "firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { defineSecret } from "firebase-functions/params";
 
 admin.initializeApp();
+
+const ALVO_SMS_TOKEN = defineSecret("ALVO_SMS_TOKEN");
+const ALVO_SENDER_ID = defineSecret("ALVO_SENDER_ID");
+const ALVO_DLT_TEMPLATE_ID = defineSecret("ALVO_DLT_TEMPLATE_ID");
+const ALVO_ROUTE = defineSecret("ALVO_ROUTE");
 
 function normalizeE164India(raw: string) {
   const digits = raw.replace(/\D/g, "");
@@ -30,6 +36,9 @@ const callableCors = isEmulator()
   : [
       "https://bloodlyf.in",
       "https://www.bloodlyf.in",
+      // Amplify preview / prod domains
+      /https:\/\/.*\.amplifyapp\.com$/,
+      "https://main.d1r3chpcjgs5iy.amplifyapp.com",
       // add other allowed origins here (staging, etc.)
     ];
 
@@ -101,7 +110,12 @@ export const adminSetStaffPassword = onCall({ cors: callableCors }, async (reque
   return { ok: true };
 });
 
-export const patientRequestOtp = onCall({ cors: callableCors }, async (request) => {
+export const patientRequestOtp = onCall(
+  {
+    cors: callableCors,
+    secrets: [ALVO_SMS_TOKEN, ALVO_SENDER_ID, ALVO_DLT_TEMPLATE_ID, ALVO_ROUTE],
+  },
+  async (request) => {
   const data = request.data as unknown;
   const rawPhone =
     typeof data === "object" && data !== null && "phone" in data ? String((data as { phone: unknown }).phone) : "";
@@ -110,10 +124,10 @@ export const patientRequestOtp = onCall({ cors: callableCors }, async (request) 
   const digits = phoneE164.replace(/\D/g, "");
   if (digits.length < 10) throw new HttpsError("invalid-argument", "Invalid phone number.");
 
-  const token = process.env.ALVO_SMS_TOKEN ?? "";
-  const sender = process.env.ALVO_SENDER_ID ?? "";
-  const route = process.env.ALVO_ROUTE ?? "otp";
-  const templateId = process.env.ALVO_DLT_TEMPLATE_ID ?? "";
+  const token = ALVO_SMS_TOKEN.value();
+  const sender = ALVO_SENDER_ID.value();
+  const route = ALVO_ROUTE.value() || "otp";
+  const templateId = ALVO_DLT_TEMPLATE_ID.value();
   if (!token || !sender || !templateId) {
     throw new HttpsError("failed-precondition", "SMS provider not configured.");
   }
@@ -146,7 +160,8 @@ export const patientRequestOtp = onCall({ cors: callableCors }, async (request) 
 
   // Never return OTP in production responses.
   return isEmulator() ? { ok: true, debugOtp: otp } : { ok: true };
-});
+  },
+);
 
 export const patientVerifyOtp = onCall({ cors: callableCors }, async (request) => {
   const data = request.data as unknown;
