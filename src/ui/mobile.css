@@ -141,6 +141,330 @@
   color: var(--muted);
 }
 
+/* --- Auth / login redesign --- */
+.auth {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth__header {
+  position: relative;
+  border-radius: 22px;
+  padding: 18px 16px 14px;
+  overflow: hidden;
+  border: 1px solid rgba(36, 24, 56, 0.10);
+  background:
+    radial-gradient(900px 420px at 10% 10%, rgba(236, 72, 153, 0.12), transparent 55%),
+    radial-gradient(900px 420px at 85% 20%, rgba(239, 68, 68, 0.14), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.35));
+}
+
+.auth__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.auth__logo {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #111827;
+  line-height: 1;
+}
+
+.auth__lyf {
+  color: #7f1d1d;
+  margin-left: 6px;
+}
+
+.auth__tag {
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.65);
+}
+
+.auth__drop {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 86px;
+  height: 86px;
+  border-radius: 999px;
+  background:
+    radial-gradient(closest-side, rgba(248, 113, 113, 0.55), transparent 70%),
+    radial-gradient(closest-side, rgba(127, 29, 29, 0.85), rgba(127, 29, 29, 0.25));
+  filter: blur(0.1px);
+  opacity: 0.95;
+}
+
+.auth__welcome {
+  padding: 2px 2px 0;
+}
+
+.auth__title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.4px;
+}
+
+.auth__sub {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(17, 24, 39, 0.62);
+}
+
+.auth__card {
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(36, 24, 56, 0.12);
+  box-shadow: rgba(15, 10, 30, 0.08) 0 20px 40px -26px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth__step {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.auth__stepNum {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: white;
+  background: #7f1d1d;
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.auth__stepTitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.auth__stepHint {
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.55);
+}
+
+.auth__phoneRow {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 10px;
+}
+
+.auth__cc {
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+  color: #111827;
+  font-weight: 800;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth__caret {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.auth__phoneInput {
+  height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+  color: #111827;
+}
+
+.auth__phoneInput:focus {
+  border-color: rgba(127, 29, 29, 0.35);
+  box-shadow: 0 0 0 4px rgba(127, 29, 29, 0.10);
+}
+
+.auth__cta {
+  height: 50px;
+  border-radius: 16px;
+  border: 1px solid rgba(127, 29, 29, 0.25);
+  background: linear-gradient(180deg, #7f1d1d, #5f0e14);
+  color: white;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+}
+
+.auth__cta.is-muted {
+  background: linear-gradient(180deg, rgba(127, 29, 29, 0.26), rgba(95, 14, 20, 0.18));
+  color: rgba(17, 24, 39, 0.55);
+  border-color: rgba(17, 24, 39, 0.12);
+}
+
+.auth__cta:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth__trust {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.55);
+  padding-top: 2px;
+}
+
+.auth__shield {
+  color: #7f1d1d;
+}
+
+.auth__divider {
+  display: grid;
+  place-items: center;
+  margin: 2px 0 -2px;
+}
+
+.auth__divider span {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  color: rgba(17, 24, 39, 0.55);
+  background: rgba(17, 24, 39, 0.06);
+  border: 1px solid rgba(17, 24, 39, 0.10);
+}
+
+.auth__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.auth__rowBetween {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.auth__link {
+  border: none;
+  background: transparent;
+  color: #7f1d1d;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+
+.auth__ghost {
+  height: 50px;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  background: rgba(255, 255, 255, 0.92);
+  color: #111827;
+  font-weight: 800;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+.auth__phoneEm {
+  color: rgba(17, 24, 39, 0.75);
+  font-weight: 800;
+}
+
+.otp {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  padding: 6px 2px;
+}
+
+.otp__box {
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 24, 39, 0.16);
+  background: rgba(255, 255, 255, 0.95);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  color: #111827;
+}
+
+.otp__box.is-filled {
+  border-color: rgba(127, 29, 29, 0.35);
+  box-shadow: 0 0 0 4px rgba(127, 29, 29, 0.08);
+}
+
+.otp__hidden {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.auth__features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 6px 2px 0;
+}
+
+.auth__feat {
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.70);
+  border: 1px solid rgba(36, 24, 56, 0.10);
+  padding: 10px 8px;
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+}
+
+.auth__featIcon {
+  color: #7f1d1d;
+  font-size: 18px;
+}
+
+.auth__featLabel {
+  font-size: 10.5px;
+  color: rgba(17, 24, 39, 0.65);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 380px) {
+  .otp {
+    gap: 8px;
+  }
+  .otp__box {
+    height: 50px;
+  }
+}
+
 /* --- Landing / onboarding --- */
 .landing {
   height: 100%;
