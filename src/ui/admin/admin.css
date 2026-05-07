@@ -1,0 +1,220 @@
+.admin-root {
+  min-height: 100svh;
+  background:
+    radial-gradient(1200px 800px at 12% 2%, rgba(167, 139, 250, 0.32), transparent 60%),
+    radial-gradient(900px 600px at 90% 28%, rgba(124, 58, 237, 0.16), transparent 60%),
+    var(--bg);
+  color: var(--text);
+}
+
+.admin-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+}
+
+.admin-title {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: var(--text-h);
+}
+
+.admin-subtitle {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+.admin-body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100svh - 64px);
+}
+
+.admin-nav {
+  padding: 14px;
+  border-right: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.a-nav {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: var(--text-h);
+  text-decoration: none;
+  opacity: 0.85;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+}
+.a-nav:hover {
+  opacity: 1;
+  border-color: rgba(124, 58, 237, 0.2);
+  background: rgba(124, 58, 237, 0.06);
+}
+.a-nav-on {
+  opacity: 1;
+  background: rgba(124, 58, 237, 0.1);
+  border-color: rgba(124, 58, 237, 0.28);
+}
+
+.admin-main {
+  padding: 18px;
+}
+
+.a-card {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: rgba(15, 10, 30, 0.05) 0 12px 24px -16px;
+}
+
+.a-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+}
+
+.a-col-6 {
+  grid-column: span 6;
+}
+.a-col-12 {
+  grid-column: span 12;
+}
+
+.a-h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  color: var(--text-h);
+  font-weight: 700;
+}
+.a-p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.a-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.a-label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+
+.a-input,
+.a-select {
+  width: 100%;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(36, 24, 56, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-h);
+  outline: none;
+  padding: 0 12px;
+}
+.a-input:focus,
+.a-select:focus {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+}
+
+.a-btn {
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0 14px;
+}
+.a-btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+}
+.a-btn-ghost {
+  background: transparent;
+  border-color: rgba(36, 24, 56, 0.18);
+  color: var(--text-h);
+}
+.a-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.a-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.a-table th,
+.a-table td {
+  text-align: left;
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(36, 24, 56, 0.1);
+}
+.a-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  background: rgba(124, 58, 237, 0.06);
+  font-size: 12px;
+  color: var(--text-h);
+}
+
+@media (max-width: 980px) {
+  .admin-body {
+    grid-template-columns: 1fr;
+  }
+  .admin-nav {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    position: sticky;
+    top: 64px;
+    z-index: 9;
+  }
+  .a-nav {
+    white-space: nowrap;
+    margin-bottom: 0;
+  }
+  .a-row {
+    grid-template-columns: 1fr;
+  }
+  .a-col-6 {
+    grid-column: span 12;
+  }
+}
+
