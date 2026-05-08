@@ -1,5 +1,5 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { browserLocalPersistence, connectAuthEmulator, getAuth, setPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 
@@ -16,6 +16,12 @@ console.log("VITE_FIREBASE_PROJECT_ID =", import.meta.env.VITE_FIREBASE_PROJECT_
 
 export const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth(firebaseApp);
+
+// Keep users logged in across refreshes/reopens (saves OTP/SMS credits).
+// If persistence cannot be set (e.g. blocked storage), Auth will fall back gracefully.
+setPersistence(firebaseAuth, browserLocalPersistence).catch((e) => {
+  console.warn("[auth] failed to set persistence", e);
+});
 
 // Firestore Lite uses REST/fetch and avoids WebChannel transport issues.
 export const firestore = getFirestore(firebaseApp);

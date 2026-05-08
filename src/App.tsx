@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import DashboardPage from "@/pages/DashboardPage";
 import LandingPage from "@/pages/LandingPage";
 import LoginPage from "@/pages/LoginPage";
 import ProfilePage from "@/pages/ProfilePage";
@@ -44,6 +45,14 @@ export default function App() {
           element={
             <MobileShell>
               <ProfilePage />
+            </MobileShell>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <MobileShell>
+              <DashboardPage />
             </MobileShell>
           }
         />

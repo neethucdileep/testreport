@@ -656,6 +656,149 @@
   }
 }
 
+/* --- Dashboard (patient) --- */
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 14px;
+}
+
+.dash__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 2px 2px 0;
+}
+
+.dash__hello {
+  font-size: 22px;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -0.2px;
+}
+
+.dash__sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.62);
+}
+
+.dash__signout {
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  background: rgba(255, 255, 255, 0.86);
+  padding: 0 12px;
+  color: #7f1d1d;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.dash__hero {
+  border-radius: 22px;
+  border: 1px solid rgba(36, 24, 56, 0.10);
+  padding: 16px;
+  background:
+    radial-gradient(900px 500px at 10% 20%, rgba(127, 29, 29, 0.14), transparent 55%),
+    radial-gradient(900px 500px at 85% 10%, rgba(236, 72, 153, 0.10), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.40));
+}
+
+.dash__heroTitle {
+  font-size: 18px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.dash__heroText {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: rgba(17, 24, 39, 0.62);
+}
+
+.dash__heroPill {
+  margin-top: 12px;
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 8px 10px;
+  border: 1px solid rgba(127, 29, 29, 0.18);
+  background: rgba(127, 29, 29, 0.06);
+  color: #7f1d1d;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.dash__sectionTitle {
+  font-size: 13px;
+  font-weight: 900;
+  color: #111827;
+  padding: 0 2px;
+}
+
+.dash__grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dash__card {
+  text-align: left;
+  border-radius: 20px;
+  border: 1px solid rgba(36, 24, 56, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: rgba(15, 10, 30, 0.08) 0 18px 34px -26px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.dash__card.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dash__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(127, 29, 29, 0.08);
+  border: 1px solid rgba(127, 29, 29, 0.14);
+  color: #7f1d1d;
+  margin-bottom: 10px;
+}
+
+.dash__cardTitle {
+  font-size: 13px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.dash__cardSub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.58);
+}
+
+.dash__empty {
+  margin-top: 10px;
+  border-radius: 22px;
+  border: 1px dashed rgba(17, 24, 39, 0.16);
+  background: rgba(255, 255, 255, 0.70);
+  padding: 14px;
+  font-size: 12px;
+  color: rgba(17, 24, 39, 0.58);
+}
+
+@media (max-width: 380px) {
+  .dash__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* --- Landing / onboarding --- */
 .landing {
   height: 100%;

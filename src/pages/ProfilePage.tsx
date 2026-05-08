@@ -36,6 +36,7 @@ export default function ProfilePage() {
   const [address, setAddress] = useState("");
   const [pincode, setPincode] = useState("");
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
+  const [wasCompleteOnLoad, setWasCompleteOnLoad] = useState(false);
 
   function updateMember(id: string, patch: Partial<FamilyMember>) {
     setFamilyMembers((all) =>
@@ -74,6 +75,9 @@ export default function ProfilePage() {
           setAddress(p.address ?? "");
           setPincode(p.pincode ?? "");
           setFamilyMembers(Array.isArray(p.familyMembers) ? p.familyMembers : []);
+          setWasCompleteOnLoad(
+            Boolean(p.phone && p.name?.trim() && (p.age ?? 0) > 0 && p.dob && p.address?.trim() && /^\d{6}$/.test(String(p.pincode ?? "").trim())),
+          );
         }
       } catch (e) {
         console.error("[profile] load failed", e);
@@ -115,6 +119,10 @@ export default function ProfilePage() {
         familyMembers,
       });
       setStatus("Saved.");
+      // After first successful completion, send users to the dashboard.
+      if (!wasCompleteOnLoad) {
+        navigate("/dashboard", { replace: true });
+      }
     } catch (e) {
       console.error("[profile] save failed", e);
       setStatus(e instanceof Error ? e.message : "Failed to save.");
